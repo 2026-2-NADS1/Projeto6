@@ -14,7 +14,7 @@ Vide tutoriais do PI.
 
 ## Nome do Grupo
 
-## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Gisele Ribeiro dos Santos</a>, <a href="www.linkedin.com/in/daniel-sobral-quio-477b073a7">Daniel Sobral Quio</a>
+## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="www.linkedin.com/in/joaosouza22/">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Gisele Ribeiro dos Santos</a>, <a href="www.linkedin.com/in/daniel-sobral-quio-477b073a7/">Daniel Sobral Quio</a>
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
 
