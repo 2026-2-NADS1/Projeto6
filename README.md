@@ -91,7 +91,7 @@ Coloque código do prompt de comnando se for necessário
 ```
 
 ## 📋 Licença/License
-Utilize o link <https://chooser-beta.creativecommons.org/> para fazer uma licença CC BY 4.0.
+<a href="https://github.com/2026-2-NADS1/Projeto6">TugaBlock</a> © 2026 by <a href="https://github.com/2026-2-NADS1/Projeto6">João Pedro da Silva Souza, Gisele Ribeiro dos Santos, Murilo Verissimo Pereira, Daniel Sobral Quio, FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 ## 🎓 Referências
 
