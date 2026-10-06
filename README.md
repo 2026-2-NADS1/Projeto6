@@ -14,7 +14,7 @@ Vide tutoriais do PI.
 
 ## Nome do Grupo
 
-## Integrantes: <a href="https://github.com/verissimoMuh">Murilo Verissimo Pereira</a>, <a href="www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/victorbarq/">Ikki de Fenix</a>, <a href="https://www.linkedin.com/in/victorbarq/">Yusuke Urameshi</a>, <a href="https://www.linkedin.com/in/victorbarq/">Roronoa Zoro</a>
+## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/victorbarq/">Gisele Ribeiro dos Santos</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Daniel ------</a>, <a href="https://www.linkedin.com/in/victorbarq/">Roronoa Zoro</a>
 
 ## Professores Orientadores: <a href="https://www.linkedin.com/in/victorbarq/">Dr. Victor Von Doom</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Saitama</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Strange</a>, <a href="https://www.linkedin.com/in/victorbarq/">Me. Yoda</a>, <a href="https://www.linkedin.com/in/victorbarq/">Dr. Gero</a>
 
