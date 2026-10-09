@@ -10,9 +10,9 @@ Vide tutoriais do PI.
 <a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado" border="0"></a>
 </p>
 
-# Nome do Projeto
+# TugaBlock
 
-## Nome do Grupo
+## MDGP
 
 ## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="https://www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Gisele Ribeiro dos Santos</a>, <a href="https://www.linkedin.com/in/daniel-sobral-quio-477b073a7">Daniel Sobral Quio</a>
 
