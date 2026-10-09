@@ -21,16 +21,17 @@ Vide tutoriais do PI.
 ## Descrição
 
 <p align="center">
-<img src="https://pix4free.org/assets/library/2021-01-20/originals/game.jpg" alt="NOME DO JOGO" border="0">
+<img src="/imagens/TugaBlock.jpg" alt="NOME DO JOGO" border="0">
   Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
 </p>
 
 
-De um a dois parágrafos sobre o que é seu projeto e o que ele faz.
+O Projeto Integrador (PI) da FECAP tem como objetivo desenvolver um quiz interativo sobre a marca Arcor e seus produtos Block e Tortuguita, utilizando a tecnologia e a criatividade para proporcionar uma experiência divertida, dinâmica e envolvente. A proposta busca aproximar os consumidores da marca por meio de perguntas e desafios relacionados à empresa, à história da Arcor e às características de seus produtos, incentivando o conhecimento e o interesse pela marca de forma lúdica.
+
 <br><br>
-Meu projeto ajuda estudantes FECAP a configurarem seus githubs.
+O jogo será dividido em três níveis de dificuldade — fácil, médio e difícil —, com pontuações diferentes de acordo com cada pergunta. Ao final, os pontos acumulados pelos participantes serão utilizados para criar um ranking, estimulando a competição saudável e o engajamento. Dessa forma, o projeto busca unir entretenimento, conhecimento e interação digital, oferecendo uma experiência diferenciada aos consumidores e fortalecendo a conexão com a marca Arcor.
 <br><br>
-May the force be with you!
+
 <br><br>
 
 ## 🛠 Estrutura de pastas
