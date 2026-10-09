@@ -22,7 +22,7 @@ Vide tutoriais do PI.
 
 <p align="center">
 <img src="/imagens/TugaBlock.jpg" alt="NOME DO JOGO" border="0">
-  Game by <a href="http://www.nyphotographic.com/">Nick Youngson</a> <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> <a href="http://pix4free.org/">Pix4free</a>
+ Game by <a>Murilo Verissimo, João Souza, Gisele Ribeiro e Daniel Quio</a> - <a href="https://www.fecap.br/">FECAP (PI)</a> | Imagens por <a href="https://gemini.google.com/">Gemini AI</a> (Inspirado em Arcor, Tortuguita e Block)
 </p>
 
 
