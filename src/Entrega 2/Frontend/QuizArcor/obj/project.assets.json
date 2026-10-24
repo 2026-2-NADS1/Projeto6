@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\Entrega 2\\Frontend\\TugaBlock.WinForms\\TugaBlock.WinForms.csproj",
-      "projectName": "TugaBlock.WinForms",
-      "projectPath": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\Entrega 2\\Frontend\\TugaBlock.WinForms\\TugaBlock.WinForms.csproj",
+      "projectUniqueName": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\entrega 2\\frontend\\QuizArcor\\QuizArcor.csproj",
+      "projectName": "QuizArcor",
+      "projectPath": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\entrega 2\\frontend\\QuizArcor\\QuizArcor.csproj",
       "packagesPath": "C:\\Users\\gisel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\Entrega 2\\Frontend\\TugaBlock.WinForms\\obj\\",
+      "outputPath": "C:\\Users\\gisel\\OneDrive\\Documentos\\GitHub\\Projeto6\\src\\entrega 2\\frontend\\QuizArcor\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

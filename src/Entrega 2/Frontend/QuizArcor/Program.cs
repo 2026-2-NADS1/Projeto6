@@ -1,4 +1,4 @@
-namespace TugaBlock.WinForms;
+namespace QuizArcor;
 
 static class Program
 {

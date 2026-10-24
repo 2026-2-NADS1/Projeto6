@@ -1,4 +1,4 @@
-namespace TugaBlock.WinForms;
+namespace QuizArcor;
 
 public partial class Form1 : Form
 {
