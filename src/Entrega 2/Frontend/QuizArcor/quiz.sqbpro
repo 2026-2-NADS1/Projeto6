@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="quiz.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2547"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Marcas" custom_title="0" dock_id="2" table="4,6:mainMarcas"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000002fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011e00ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">-- Banco do Quiz Arcor (SQLite)
+-- Execute UMA vez em um arquivo .db vazio.
+
+CREATE TABLE IF NOT EXISTS Marcas (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    NomeMarca TEXT NOT NULL,
+    Descricao TEXT NOT NULL,
+    Ativo INTEGER NOT NULL DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS Perguntas (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Enunciado TEXT NOT NULL,
+    AlternativaA TEXT NOT NULL,
+    AlternativaB TEXT NOT NULL,
+    AlternativaC TEXT NOT NULL,
+    AlternativaD TEXT NOT NULL,
+    RespostaCorreta CHAR(1) NOT NULL,
+    Dificuldade TEXT NOT NULL,
+    Pista TEXT,
+    Feedback TEXT NOT NULL,
+    MarcaId INTEGER,
+    Ativo INTEGER NOT NULL DEFAULT 1,
+    FOREIGN KEY (MarcaId) REFERENCES Marcas(Id)
+);
+
+CREATE TABLE IF NOT EXISTS Partidas (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nickname TEXT NOT NULL,
+    Pontuacao INTEGER NOT NULL,
+    DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Modo TEXT NOT NULL DEFAULT 'Quiz',
+    TotalQuestoes INTEGER NOT NULL DEFAULT 0,
+    TotalAcertos INTEGER NOT NULL DEFAULT 0,
+    TempoSegundos INTEGER NOT NULL DEFAULT 0,
+    DicasUsadas INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO Marcas (NomeMarca, Descricao) VALUES
+('Tortuguita', 'A famosa marca de chocolates da Arcor conhecida pelo formato icônico e interativo.'),
+('Block', 'Linha tradicional de barras de chocolate da Arcor presente no mercado brasileiro.');
+
+INSERT INTO Perguntas (Enunciado, AlternativaA, AlternativaB, AlternativaC, AlternativaD, RespostaCorreta, Dificuldade, Pista, Feedback, MarcaId)
+VALUES
+('Qual é o formato característico dos chocolates da marca Tortuguita?', 'Estrela', 'Tartaruga', 'Coração', 'Carro', 'B', 'Fácil', 'Tem casco e quatro patas.', 'Isso mesmo! A Tortuguita é famosa pelo seu formato de tartaruga.', 1),
+
+('A marca Block é especialmente conhecida por qual categoria de produtos?', 'Chocolates recheados', 'Biscoitos e crackers', 'Balas e guloseimas', 'Sorvetes', 'A', 'Médio', 'Costuma ser bem doce.', 'Correto! A Block é referência na linha de chocolates.', 2),
+
+('Em qual década a Arcor iniciou sua expansão oficial para o mercado brasileiro?', 'Década de 1970', 'Década de 1980', 'Década de 1990', 'Anos 2000', 'B', 'Difícil', 'Foi um marco importante na internacionalização da empresa.', 'Exato! A chegada ao Brasil ocorreu na década de 1980.', 1);</sql><current_tab id="0"/></tab_sql></sqlb_project>
