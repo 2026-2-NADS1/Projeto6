@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using System.IO;
 
 namespace QuizArcor;
 
@@ -91,8 +92,12 @@ public class Form1 : Form
     public Form1()
     {
         Text = "Arcor – Desafio das Marcas";
-        ClientSize = new Size(760, 660);
+        ClientSize = new Size(1152, 648);
+        MinimumSize = new Size(900, 560);
         StartPosition = FormStartPosition.CenterScreen;
+        BackColor = Color.FromArgb(18, 56, 112);
+        BackgroundImage = CarregarImagem("fundo.png");
+        BackgroundImageLayout = ImageLayout.Stretch;
 
         MontarInicio();
         MontarIdentificacao();
@@ -101,6 +106,7 @@ public class Form1 : Form
         MontarHistorico();
 
         Controls.AddRange(new Control[] { pnlInicio, pnlIdent, pnlQuiz, pnlResultado, pnlHistorico });
+        AplicarTemaVisual();
         MostrarPainel(pnlInicio);
     }
 
@@ -113,7 +119,8 @@ public class Form1 : Form
         FlowDirection = FlowDirection.TopDown,
         WrapContents = false,
         AutoScroll = true,
-        Padding = new Padding(30, 20, 30, 20),
+        Padding = new Padding(42, 24, 42, 24),
+        BackColor = Color.Transparent,
         Visible = false
     };
 
@@ -123,6 +130,8 @@ public class Form1 : Form
         AutoSize = true,
         MaximumSize = new Size(680, 0),
         Font = new Font("Segoe UI", tamanho, negrito ? FontStyle.Bold : FontStyle.Regular),
+        ForeColor = Color.White,
+        BackColor = Color.Transparent,
         Margin = new Padding(0, 0, 0, 12)
     };
 
@@ -131,9 +140,126 @@ public class Form1 : Form
         Text = texto,
         Width = 240,
         Height = 40,
-        Font = new Font("Segoe UI", 10),
+        Font = new Font("Segoe UI", 11, FontStyle.Bold),
+        BackColor = Color.FromArgb(255, 196, 0),
+        ForeColor = Color.FromArgb(18, 56, 112),
+        FlatStyle = FlatStyle.Flat,
+        Cursor = Cursors.Hand,
         Margin = new Padding(0, 0, 0, 10)
     };
+
+    private void AplicarTemaVisual()
+    {
+        foreach (Control painel in new Control[] { pnlInicio, pnlIdent, pnlQuiz, pnlResultado, pnlHistorico })
+        {
+            painel.BackColor = Color.Transparent;
+            AplicarTemaControles(painel);
+        }
+
+        foreach (var b in _alts)
+        {
+            if (b == null) continue;
+            b.BackColor = Color.FromArgb(255, 244, 214);
+            b.ForeColor = Color.FromArgb(74, 44, 26);
+            b.FlatStyle = FlatStyle.Flat;
+            b.FlatAppearance.BorderColor = Color.FromArgb(255, 196, 0);
+            b.FlatAppearance.BorderSize = 2;
+            b.Cursor = Cursors.Hand;
+        }
+    }
+
+    private static void AplicarTemaControles(Control pai)
+    {
+        foreach (Control c in pai.Controls)
+        {
+            if (c is Button b)
+            {
+                b.BackColor = Color.FromArgb(255, 196, 0);
+                b.ForeColor = Color.FromArgb(18, 56, 112);
+                b.FlatStyle = FlatStyle.Flat;
+                b.FlatAppearance.BorderColor = Color.FromArgb(255, 220, 90);
+                b.FlatAppearance.BorderSize = 1;
+                b.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                b.Cursor = Cursors.Hand;
+                b.UseVisualStyleBackColor = false;
+            }
+            else if (c is TextBox tb)
+            {
+                tb.BackColor = Color.FromArgb(255, 250, 235);
+                tb.ForeColor = Color.FromArgb(18, 56, 112);
+                tb.BorderStyle = BorderStyle.FixedSingle;
+            }
+            else if (c is ComboBox cb)
+            {
+                cb.BackColor = Color.FromArgb(255, 250, 235);
+                cb.ForeColor = Color.FromArgb(18, 56, 112);
+            }
+            else if (c is CheckBox chk)
+            {
+                chk.ForeColor = Color.White;
+                chk.BackColor = Color.Transparent;
+            }
+            else if (c is Label lbl)
+            {
+                lbl.ForeColor = Color.White;
+                lbl.BackColor = Color.Transparent;
+            }
+
+            if (c.HasChildren) AplicarTemaControles(c);
+        }
+    }
+
+    // Procura as imagens na pasta imagens/Imagens do projeto e também ao lado do executável.
+    private static Image? CarregarImagem(string nome)
+    {
+        var bases = new[] { AppContext.BaseDirectory, Environment.CurrentDirectory };
+        foreach (var baseDir in bases)
+        {
+            var atual = new DirectoryInfo(baseDir);
+            while (atual != null)
+            {
+                string[] candidatos =
+                {
+                    Path.Combine(atual.FullName, "imagens", nome),
+                    Path.Combine(atual.FullName, "Imagens", nome),
+                    Path.Combine(atual.FullName, nome)
+                };
+
+                foreach (string caminho in candidatos)
+                {
+                    try
+                    {
+                        if (File.Exists(caminho))
+                        {
+                            using var origem = Image.FromFile(caminho);
+                            return new Bitmap(origem);
+                        }
+                    }
+                    catch
+                    {
+                        // Se uma imagem não puder ser carregada, tenta os outros caminhos.
+                    }
+                }
+                atual = atual.Parent;
+            }
+        }
+        return null;
+    }
+
+    private static PictureBox? CriarImagem(string nome, int largura, int altura)
+    {
+        var imagem = CarregarImagem(nome);
+        if (imagem == null) return null;
+        return new PictureBox
+        {
+            Image = imagem,
+            Width = largura,
+            Height = altura,
+            SizeMode = PictureBoxSizeMode.Zoom,
+            BackColor = Color.Transparent,
+            Margin = new Padding(0, 0, 0, 8)
+        };
+    }
 
     private void MostrarPainel(Control painel)
     {
@@ -155,6 +281,12 @@ public class Form1 : Form
             "4. Cada acerto vale 10 pontos (fácil), 20 (médio) ou 30 (difícil).",
             "5. No final, veja o seu resumo e as marcas que apareceram na partida."
         });
+
+        var imagemTitulo = CriarImagem("titulo.png", 650, 115);
+        if (imagemTitulo != null) pnlInicio.Controls.Add(imagemTitulo);
+
+        var imagemMascote = CriarImagem("mascote.png", 155, 155);
+        if (imagemMascote != null) pnlInicio.Controls.Add(imagemMascote);
 
         pnlInicio.Controls.Add(Rotulo("ARCOR – Desafio das Marcas", 22, true));
         pnlInicio.Controls.Add(Rotulo("Descubra o quanto você conhece as marcas e os produtos da Arcor!", 12));
@@ -327,8 +459,9 @@ public class Form1 : Form
                 var alt = p.Alternativas[i];
                 b.Text = alt.Letra + ") " + alt.Texto;
                 b.Tag = alt.Letra;
-                b.BackColor = SystemColors.Control;
-                b.UseVisualStyleBackColor = true;
+                b.BackColor = Color.FromArgb(255, 244, 214);
+                b.ForeColor = Color.FromArgb(74, 44, 26);
+                b.UseVisualStyleBackColor = false;
                 b.Visible = true;
             }
             else
