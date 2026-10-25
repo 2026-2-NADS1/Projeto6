@@ -1,12 +1,52 @@
-﻿using System.Net.Http.Json;
+﻿using System.Globalization;
+using System.Net.Http.Json;
+using System.Text;
 
 namespace QuizArcor;
 
-// ---------- Dados de entrada ----------
+// =====================================================================
+// Modelos que chegam da API (nomes batem com o JSON de /api/perguntas)
+// =====================================================================
+public class Alternativa
+{
+    public string Letra { get; set; } = "";
+    public string Texto { get; set; } = "";
+}
+
+public class Pergunta
+{
+    public int Id { get; set; }
+    public string Enunciado { get; set; } = "";
+    public List<Alternativa> Alternativas { get; set; } = new();
+    public string RespostaCorreta { get; set; } = "";
+    public string Dificuldade { get; set; } = "";
+    public string? Pista { get; set; }
+    public string Feedback { get; set; } = "";
+    public string? Marca { get; set; }
+    public string? MarcaDescricao { get; set; }
+}
+
+// Linha do historico (GET /api/partidas)
+public class PartidaHistorico
+{
+    public int Id { get; set; }
+    public string Nickname { get; set; } = "";
+    public int Pontuacao { get; set; }
+    public string Modo { get; set; } = "";
+    public int TotalQuestoes { get; set; }
+    public int TotalAcertos { get; set; }
+    public int TempoSegundos { get; set; }
+    public int DicasUsadas { get; set; }
+    public string? DataHora { get; set; }
+}
+
+// =====================================================================
+// Dados e resultado da partida (logica da entrega 1)
+// =====================================================================
 public class DadosPartida
 {
     public string Nickname { get; set; } = "";
-    public int FaixaEtaria { get; set; }          // 1 a 6
+    public int FaixaEtaria { get; set; }          // 1 a 6 (6 = prefiro nao informar)
     public int QuestoesFaceis { get; set; }
     public int AcertosFaceis { get; set; }
     public int QuestoesMedias { get; set; }
@@ -17,10 +57,11 @@ public class DadosPartida
     public int DicasUsadas { get; set; }
 }
 
-// ---------- Resultado (e o que vai no JSON) ----------
+// E o que vai no JSON do POST /api/partidas
 public class ResultadoPartida
 {
     public string Nickname { get; set; } = "";
+    public string Modo { get; set; } = "Quiz";
     public string NomeFaixa { get; set; } = "";
     public int TotalQuestoes { get; set; }
     public int TotalAcertos { get; set; }
@@ -41,7 +82,6 @@ public class ResultadoPartida
     public string Classificacao { get; set; } = "";
 }
 
-// ---------- Validacao e calculo (logica da entrega 1) ----------
 public static class CalculadoraPartida
 {
     private static readonly string[] Faixas =
@@ -49,6 +89,22 @@ public static class CalculadoraPartida
         "Até 12 anos", "13 a 17 anos", "18 a 24 anos",
         "25 a 39 anos", "40 anos ou mais", "Prefiro não informar"
     };
+
+    // Converte o texto do banco ("Fácil", "Médio", "Difícil") em 1, 2 ou 3
+    public static int Nivel(string dificuldade)
+    {
+        var sb = new StringBuilder();
+        foreach (char c in (dificuldade ?? "").Normalize(NormalizationForm.FormD))
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                sb.Append(c);
+        }
+
+        string s = sb.ToString().Trim().ToLowerInvariant();
+        if (s.StartsWith("m")) return 2;
+        if (s.StartsWith("d")) return 3;
+        return 1;
+    }
 
     public static List<string> Validar(DadosPartida d)
     {
@@ -106,6 +162,7 @@ public static class CalculadoraPartida
         return new ResultadoPartida
         {
             Nickname = d.Nickname,
+            Modo = "Quiz",
             NomeFaixa = Faixas[d.FaixaEtaria - 1],
             TotalQuestoes = total,
             TotalAcertos = acertos,
@@ -128,19 +185,38 @@ public static class CalculadoraPartida
     }
 }
 
-// ---------- Chamada JSON ao servidor externo ----------
+// =====================================================================
+// Chamadas JSON ao servidor (a API do Quiz Arcor)
+// =====================================================================
 public class QuizApiService
 {
     private static readonly HttpClient _http = new()
     {
-        BaseAddress = new Uri("https://httpbin.org/"), // troque pela URL real (Ainda não temos)
+        BaseAddress = new Uri("http://localhost:5000/"),
         Timeout = TimeSpan.FromSeconds(10)
     };
 
-    public async Task<string> EnviarResultadoAsync(ResultadoPartida resultado)
+    // GET: sorteia perguntas (dificuldade opcional: "Fácil", "Médio" ou "Difícil")
+    public async Task<List<Pergunta>> ObterPerguntasAsync(string? dificuldade, int quantidade)
     {
-        var resposta = await _http.PostAsJsonAsync("post", resultado);
+        string url = $"api/perguntas?quantidade={quantidade}";
+        if (!string.IsNullOrWhiteSpace(dificuldade))
+            url += "&dificuldade=" + Uri.EscapeDataString(dificuldade);
+
+        return await _http.GetFromJsonAsync<List<Pergunta>>(url) ?? new List<Pergunta>();
+    }
+
+    // POST: grava a partida no historico
+    public async Task EnviarResultadoAsync(ResultadoPartida resultado)
+    {
+        var resposta = await _http.PostAsJsonAsync("api/partidas", resultado);
         resposta.EnsureSuccessStatusCode();
-        return await resposta.Content.ReadAsStringAsync();
+    }
+
+    // GET: ultimas partidas
+    public async Task<List<PartidaHistorico>> ObterHistoricoAsync()
+    {
+        return await _http.GetFromJsonAsync<List<PartidaHistorico>>("api/partidas?limite=20")
+               ?? new List<PartidaHistorico>();
     }
 }
