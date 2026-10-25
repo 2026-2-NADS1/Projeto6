@@ -141,3 +141,16 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+# Arquivos gerados pela compilação do .NET
+**/bin/
+**/obj/
+
+# Arquivos temporários do Visual Studio e VS Code
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Arquivos temporários do sistema
+Thumbs.db
+.DS_Store
