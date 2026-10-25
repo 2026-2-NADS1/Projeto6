@@ -1,0 +1,15 @@
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.AssemblyInfoInputs.cache
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.AssemblyInfo.cs
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.csproj.CoreCompileInputs.cache
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.sourcelink.json
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\bin\Debug\net10.0-windows\QuizArcor.exe
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\bin\Debug\net10.0-windows\QuizArcor.deps.json
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\bin\Debug\net10.0-windows\QuizArcor.runtimeconfig.json
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\bin\Debug\net10.0-windows\QuizArcor.dll
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\bin\Debug\net10.0-windows\QuizArcor.pdb
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.dll
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\refint\QuizArcor.dll
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.pdb
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\QuizArcor.genruntimeconfig.cache
+C:\Users\gisel\OneDrive\Documentos\GitHub\Projeto6\src\Entrega 2\Frontend\QuizArcor\obj\Debug\net10.0-windows\ref\QuizArcor.dll
