@@ -168,6 +168,9 @@ app.MapGet("/api/partidas", (int? limite) =>
     return Results.Ok(lista);
 });
 
+// ---------- GET / (pagina inicial, so para confirmar que a API esta no ar) ----------
+app.MapGet("/", () => "API do Quiz Arcor no ar. Teste: /api/perguntas?quantidade=2");
+
 app.Run("http://localhost:5000");
 
 // =====================================================================
@@ -191,8 +194,10 @@ void PrepararBanco(string cx)
     checa.CommandText = "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name IN ('Marcas', 'Perguntas', 'Partidas')";
     if ((long)checa.ExecuteScalar()! < 3)
     {
+        string arquivo = Path.GetFullPath(cn.DataSource);
         Console.WriteLine("Banco sem as tabelas esperadas (Marcas, Perguntas, Partidas).");
-        Console.WriteLine("Rode o script .sql do banco para criar o arquivo e tente de novo.");
+        Console.WriteLine("Arquivo usado: " + arquivo);
+        Console.WriteLine("Rode o script quiz.sql nesse arquivo e tente de novo.");
         Environment.Exit(1);
     }
 
