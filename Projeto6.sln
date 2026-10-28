@@ -1,0 +1,45 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Entrega 2", "Entrega 2", "{C41B3516-8A0B-5BA0-AC80-710DE18CF83D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{BA94786B-4B75-94F8-1706-DC608E1F135E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizArcorApi", "src\Entrega 2\Backend\QuizArcorApi\QuizArcorApi.csproj", "{1085DB92-BE1F-2832-7B32-3BACBDCB8373}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{3875B4B1-C0F4-5DA8-2A18-72F4B24F07A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizArcor", "src\Entrega 2\Frontend\QuizArcor\QuizArcor.csproj", "{9AE62D33-995F-A452-9519-EC9C3B27598E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1085DB92-BE1F-2832-7B32-3BACBDCB8373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1085DB92-BE1F-2832-7B32-3BACBDCB8373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1085DB92-BE1F-2832-7B32-3BACBDCB8373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1085DB92-BE1F-2832-7B32-3BACBDCB8373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE62D33-995F-A452-9519-EC9C3B27598E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE62D33-995F-A452-9519-EC9C3B27598E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE62D33-995F-A452-9519-EC9C3B27598E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE62D33-995F-A452-9519-EC9C3B27598E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C41B3516-8A0B-5BA0-AC80-710DE18CF83D} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{BA94786B-4B75-94F8-1706-DC608E1F135E} = {C41B3516-8A0B-5BA0-AC80-710DE18CF83D}
+		{1085DB92-BE1F-2832-7B32-3BACBDCB8373} = {BA94786B-4B75-94F8-1706-DC608E1F135E}
+		{3875B4B1-C0F4-5DA8-2A18-72F4B24F07A9} = {C41B3516-8A0B-5BA0-AC80-710DE18CF83D}
+		{9AE62D33-995F-A452-9519-EC9C3B27598E} = {3875B4B1-C0F4-5DA8-2A18-72F4B24F07A9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FFCB3BB1-455A-4796-8C0E-211DFEF75CA2}
+	EndGlobalSection
+EndGlobal
