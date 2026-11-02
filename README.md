@@ -5,11 +5,12 @@
 </p>
 
 # TugaBlock
-
 <p align="center">
   <img src="./imagens/Logo-TugaBlock-Sem-Fundo.png" width="400" alt="Logo TugaBlock">
 </p>
-
+<p align="center">
+  <img src="./imagens/mascote-feliz.png" width="200" alt="Mascote feliz">
+</p>
 
 # Grupo: MDGP
 
