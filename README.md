@@ -20,7 +20,7 @@
 
 <p align="center">
 <img src="/imagens/TugaBlock.jpg" alt="NOME DO JOGO" border="0">
- Game by <a>Murilo Verissimo, João Souza, Gisele Ribeiro e Daniel Quio</a> - <a href="https://www.fecap.br/">FECAP (PI)</a> | Imagens por <a href="https://gemini.google.com/">Gemini AI</a> (Inspirado em Arcor, Tortuguita e Block)
+ Jogo desenvolvido por <a>Murilo Verissimo, João Souza, Gisele Ribeiro e Daniel Quio</a> - <a href="https://www.fecap.br/">FECAP (PI)</a> | Imagens por <a href="https://gemini.google.com/">Gemini AI</a> (Inspirado em Arcor, Tortuguita e Block)
 </p>
 
 
