@@ -1,4 +1,4 @@
-```sh
+```
 Utilize o site <https://www.toptal.com/developers/gitignore> para gerar seu arquivo gitignore e apague este campo.
 
 Vide tutoriais do PI.
