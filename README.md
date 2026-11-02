@@ -30,38 +30,43 @@ O Projeto Integrador (PI) da FECAP tem como objetivo desenvolver um quiz interat
 O jogo será dividido em três níveis de dificuldade: fácil, médio e difícil, com pontuações diferentes de acordo com cada pergunta. Ao final, os pontos acumulados pelos participantes serão utilizados para criar um ranking, estimulando a competição saudável e o engajamento. Dessa forma, o projeto busca unir entretenimento, conhecimento e interação digital, oferecendo uma experiência diferenciada aos consumidores e fortalecendo a conexão com a marca Arcor.
 <br><br>
 
-<br><br>
 
 ## 🛠 Estrutura de pastas
 
 -Raiz<br>
-|<br>
+<br>
 |-->documentos<br>
-  &emsp;|-->antigos<br>
-  &emsp;|Documentação.docx<br>
+  &emsp;|-->Entrega 1.docx<br>
+    &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
+    &emsp;|-->Banco de Dados<br>
+    &emsp;|-->Matemática Discreta<br>
+    &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
+    &emsp;|-->Redes de Computadores<br>
+  &emsp;|-->Entrega 2.docx<br>
+    &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
+    &emsp;|-->Banco de Dados<br>
+    &emsp;|-->Matemática Discreta<br>
+    &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
+    &emsp;|-->Redes de Computadores<br>
+  &emsp;|Documento - Projeto de Extensão - COM Empresa - 2026_1.docx<br>
 |-->executáveis<br>
   &emsp;|-->windows<br>
   &emsp;|-->android<br>
   &emsp;|-->HTML<br>
 |-->imagens<br>
+  &emsp;|block.png<br>
+  &emsp;|capa.png<br>
+  &emsp;|fundo.png<br>
+  &emsp;|logo-arcor.png<br>
+  &emsp;|mascote.png<br>
+  &emsp;|mascote-feliz.png<br>
+  &emsp;|mascote-triste.png<br>
+  &emsp;|tortuguita.png<br>
+  &emsp;|trofeu.png<br>
 |-->src<br>
   &emsp;|-->Backend<br>
   &emsp;|-->Frontend<br>
 |readme.md<br>
-
-A pasta raiz contem dois arquivos que devem ser alterados:
-
-<b>README.MD</b>: Arquivo que serve como guia e explicação geral sobre seu projeto. O mesmo que você está lendo agora.
-
-Há também 4 pastas que seguem da seguinte forma:
-
-<b>documentos</b>: Toda a documentação estará nesta pasta.
-
-<b>executáveis</b>: Binários e executáveis do projeto devem estar nesta pasta.
-
-<b>imagens</b>: Imagens do sistema
-
-<b>src</b>: Pasta que contém o código fonte.
 
 ## 🛠 Instalação
 
