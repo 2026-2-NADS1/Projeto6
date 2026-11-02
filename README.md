@@ -6,6 +6,11 @@
 
 # TugaBlock
 
+<p align="center">
+  <img src="./imagens/Logo-TugaBlock-Sem-Fundo.png" width="400" alt="Logo TugaBlock">
+</p>
+
+
 # Grupo: MDGP
 
 ## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="https://www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Gisele Ribeiro dos Santos</a>, <a href="https://www.linkedin.com/in/daniel-sobral-quio-477b073a7">Daniel Sobral Quio</a>
