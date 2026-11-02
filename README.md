@@ -37,17 +37,17 @@ O jogo será dividido em três níveis de dificuldade: fácil, médio e difícil
 <br>
 |-->documentos<br>
   &emsp;|-->Entrega 1.docx<br>
-    &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
-    &emsp;|-->Banco de Dados<br>
-    &emsp;|-->Matemática Discreta<br>
-    &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
-    &emsp;|-->Redes de Computadores<br>
+      &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
+      &emsp;|-->Banco de Dados<br>
+      &emsp;|-->Matemática Discreta<br>
+      &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
+      &emsp;|-->Redes de Computadores<br>
   &emsp;|-->Entrega 2.docx<br>
-    &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
-    &emsp;|-->Banco de Dados<br>
-    &emsp;|-->Matemática Discreta<br>
-    &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
-    &emsp;|-->Redes de Computadores<br>
+      &emsp;|-->Algoritmos_e_Lógica_de_Programação<br>
+      &emsp;|-->Banco de Dados<br>
+      &emsp;|-->Matemática Discreta<br>
+      &emsp;|-->Modelagem de Software e Arquitetura de Sistemas<br>
+      &emsp;|-->Redes de Computadores<br>
   &emsp;|Documento - Projeto de Extensão - COM Empresa - 2026_1.docx<br>
 |-->executáveis<br>
   &emsp;|-->windows<br>
