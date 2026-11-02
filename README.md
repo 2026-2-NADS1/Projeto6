@@ -4,10 +4,15 @@
 <a href= "https://www.fecap.br/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZPrRa89Kma0ZZogxm0pi-tCn_TLKeHGVxywp-LXAFGR3B1DPouAJYHgKZGV0XTEf4AE&usqp=CAU" alt="FECAP - Fundação de Comércio Álvares Penteado" border="0"></a>
 </p>
 
-# TugaBlock
+# TugaBlock - Desafio das Marcas
 <p align="center">
   <img src="./imagens/Logo-TugaBlock-Sem-Fundo.png" width="400" alt="Logo TugaBlock">
-  <img src="./imagens/mascote-feliz.png" width="200" alt="Mascote feliz">
+  <img src="./imagens/mascote-feliz.png" width="150" alt="Mascote feliz">
+</p>
+
+<p align="center">
+  <strong>🐢 Você conhece realmente a Arcor, a Tortuguita e o Block?</strong><br>
+  Teste seus conhecimentos, acumule pontos e desafie seus amigos!
 </p>
 
 # Grupo: MDGP
@@ -23,13 +28,19 @@
  Jogo desenvolvido por <a>Murilo Verissimo, João Souza, Gisele Ribeiro e Daniel Quio</a> - <a href="https://www.fecap.br/">FECAP (PI)</a> | Imagens por <a href="https://gemini.google.com/">Gemini AI</a> (Inspirado em Arcor, Tortuguita e Block)
 </p>
 
+Prepare-se para uma experiência que mistura **conhecimento, diversão e competição**! Responda perguntas sobre a Arcor, sua história e seus produtos — cada resposta é uma oportunidade de mostrar que você é fã de verdade!
 
-O Projeto Integrador (PI) da FECAP tem como objetivo desenvolver um quiz interativo sobre a marca Arcor e seus produtos Block e Tortuguita, utilizando a tecnologia e a criatividade para proporcionar uma experiência divertida, dinâmica e envolvente. A proposta busca aproximar os consumidores da marca por meio de perguntas e desafios relacionados à empresa, à história da Arcor e às características de seus produtos, incentivando o conhecimento e o interesse pela marca de forma lúdica.
+## Sobre o Jogo
+O **TugaBlock** é um quiz interativo desenvolvido como Projeto Integrador (PI) pelos alunos de Análise e Desenvolvimento de Sistemas da FECAP, com o objetivo de apresentar a marca **Arcor**, seus produtos Block, Tortuguita e outros, por meio da tecnologia e criatividade, proporcionando uma experiência divertida, dinâmica e envolvente. **Nossa proposta:** aproximar os consumidores da marca com perguntas e desafios sobre sua história e seus produtos, incentivando o conhecimento e o interesse de forma lúdica.
 
 <br><br>
-O jogo será dividido em três níveis de dificuldade: fácil, médio e difícil, com pontuações diferentes de acordo com cada pergunta. Ao final, os pontos acumulados pelos participantes serão utilizados para criar um ranking, estimulando a competição saudável e o engajamento. Dessa forma, o projeto busca unir entretenimento, conhecimento e interação digital, oferecendo uma experiência diferenciada aos consumidores e fortalecendo a conexão com a marca Arcor.
-<br><br>
 
+### Como jogar?
+
+O jogo é dividido em três níveis de dificuldade: **Fácil**, **médio** e **difícil**. Perguntas de diferentes dificuldades oferecem pontuações diferentes. Ao final, os pontos acumulados pelos participantes serão utilizados para criar um ranking, estimulando a competição saudável e o engajamento.
+- 🎚️ **Escolha seu desafio:** jogue nos níveis **Fácil**, **Médio** ou **Difícil**.
+- ⭐ **Some pontos:** perguntas de diferentes dificuldades oferecem pontuações diferentes.
+- 🏆 **Consulte o ranking:** acompanhe os resultados e dispute as melhores posições.
 
 ## 🛠 Estrutura de pastas
 
@@ -66,7 +77,7 @@ O jogo será dividido em três níveis de dificuldade: fácil, médio e difícil
 |-->src<br>
   &emsp;|-->Backend<br>
   &emsp;|-->Frontend<br>
-|readme.md<br>
+|README.md<br>
 
 ## 🛠 Instalação
 
