@@ -70,29 +70,34 @@ O jogo será dividido em três níveis de dificuldade: fácil, médio e difícil
 
 ## 🛠 Instalação
 
-<b>Windows:</b>
+**Windows:**
 
-Não há instalação! Apenas executável!
-Encontre o JOGO.exe na pasta executáveis e execute-o como qualquer outro programa.
+Não é necessário instalar dependências ou ferramentas de desenvolvimento. Basta executar o jogo.
 
-```sh
-Coloque código do prompt de comnando se for necessário
-```
+1. Acesse a pasta `executáveis/windows`.
+2. Localize o arquivo `TugaBlock.exe`.
+3. Só executar o programa!🐢
+
+> **Observação:** o executável deve estar acompanhado dos arquivos necessários para funcionamento, incluindo a API e o banco SQLite, conforme a configuração de distribuição do projeto.
 
 
 ## 💻 Configuração para Desenvolvimento
 
-Descreva como instalar todas as dependências para desenvolvimento e como rodar um test-suite automatizado de algum tipo. Se necessário, faça isso para múltiplas plataformas.
+Para desenvolver e executar o Quiz TugaBlock no Windows, é necessário instalar:
+🐢 .NET SDK: permite compilar, executar e testar aplicações C# e ASP.NET Core.
+🐢 IDEs sugeridas: Visual Studio ou Visual Studio Code.
+🐢 Git: utilizado para clonar o repositório e controlar versões.
+🐢 SQLite: banco de dados utilizado pelo projeto. Não exige instalação de um servidor MySQL.
+🐢 Extensão C# Dev Kit: recomendada para desenvolvimento C# no Visual Studio Code.
 
-Para abrir este projeto você necessita das seguintes ferramentas:
+## 🔍Testes
 
--<a href="https://godotengine.org/download">GODOT</a>
+Os testes automatizados podem ser executados utilizando o framework xUnit e o comando:
 
 ```sh
-make install
-npm test
-Coloque código do prompt de comnando se for necessário
+dotnet test
 ```
+> O projeto de testes deve estar configurado no repositório.
 
 ## 📋 Licença/License
 <a href="https://github.com/2026-2-NADS1/Projeto6">TugaBlock</a> © 2026 by <a href="https://github.com/2026-2-NADS1/Projeto6">João Pedro da Silva Souza, Gisele Ribeiro dos Santos, Murilo Verissimo Pereira, Daniel Sobral Quio, FECAP</a> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
