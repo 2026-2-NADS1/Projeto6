@@ -12,7 +12,7 @@ Vide tutoriais do PI.
 
 # TugaBlock
 <p align="center">
-  <img src="./imagens/mascote-feliz.png" width="300" alt="Mascote feliz">
+  <img src="./imagens/mascote-feliz.png" width="200" alt="Mascote feliz">
 </p>
 ## MDGP
 
