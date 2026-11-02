@@ -1,9 +1,3 @@
-```sh
-Utilize o site <https://www.toptal.com/developers/gitignore> para gerar seu arquivo gitignore e apague este campo.
-
-Vide tutoriais do PI.
-```
-
 # FECAP - Fundação de Comércio Álvares Penteado
 
 <p align="center">
@@ -12,11 +6,7 @@ Vide tutoriais do PI.
 
 # TugaBlock
 
-<p align="center">
-  <img src="./imagens/Logo-TugaBlock-Sem-Fundo.png" width="400" alt="Logo TugaBlock">
-</p>
-
-## MDGP
+# Grupo: MDGP
 
 ## Integrantes: <a href="https://www.linkedin.com/in/muriloeverissimo/">Murilo Verissimo Pereira</a>, <a href="https://www.linkedin.com/in/joaosouza22">João Pedro da Silva Souza</a>, <a href="https://www.linkedin.com/in/giseleribeirodossantos/">Gisele Ribeiro dos Santos</a>, <a href="https://www.linkedin.com/in/daniel-sobral-quio-477b073a7">Daniel Sobral Quio</a>
 
