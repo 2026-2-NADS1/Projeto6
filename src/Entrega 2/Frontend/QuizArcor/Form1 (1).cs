@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text;
 
 namespace QuizArcor;
@@ -67,12 +67,28 @@ public class Form1 : Form
     private BotaoJogo btnProxima = null!;
 
     // ---------- resultado ----------
+    private Label lblTituloResultado = null!;
     private PictureBox picTrofeu = null!;
     private Label lblClassif = null!;
     private Label lblPontosGrande = null!;
+    private Label lblPontosMax = null!;
     private Label lblEnvio = null!;
     private BotaoJogo btnReenviar = null!;
+    private Label lblAcertos = null!, lblAcertosDet = null!;
+    private Label lblAprov = null!, lblAprovDet = null!;
+    private Label lblTempoFinal = null!, lblTempoDet = null!;
+    private Label lblDicasFinal = null!, lblDicasDet = null!;
+    private readonly BarraTempo[] _barrasNivel = new BarraTempo[3];
+    private readonly Label[] _pctNivel = new Label[3];
+    private Label lblMelhorNivel = null!;
+    private Label lblMarcasPartida = null!;
+    private PainelCartao cardResumo = null!;
     private TextBox txtResumo = null!;
+
+    // contagem animada dos pontos na tela final
+    private readonly System.Windows.Forms.Timer _timerContagem = new() { Interval = 25 };
+    private int _pontosExibidos;
+    private int _pontosAlvo;
 
     // ---------- historico ----------
     private TextBox txtHistorico = null!;
@@ -105,11 +121,13 @@ public class Form1 : Form
 
         _timerPergunta.Tick += TimerPergunta_Tick;
         _timerFlash.Tick += TimerFlash_Tick;
+        _timerContagem.Tick += TimerContagem_Tick;
         KeyDown += AoTeclar;
         FormClosed += (_, _) =>
         {
             _timerPergunta.Stop();
             _timerFlash.Stop();
+            _timerContagem.Stop();
         };
 
         MostrarPainel(pnlInicio);
@@ -197,9 +215,22 @@ public class Form1 : Form
         };
     }
 
+    // Logo do Grupo Arcor (Imagens\logo-grupo-arcor.png). Se o arquivo faltar, fica vazio.
+    private static PictureBox Logo(Rectangle area)
+    {
+        return new PictureBox
+        {
+            Bounds = area,
+            SizeMode = PictureBoxSizeMode.Zoom,
+            BackColor = Color.Transparent,
+            Image = Img("logo-grupo-arcor.png")
+        };
+    }
+
     private void MostrarPainel(Control painel)
     {
         if (painel != pnlQuiz) _timerPergunta.Stop();
+        if (painel != pnlResultado) _timerContagem.Stop();
 
         foreach (var p in new Control[] { pnlInicio, pnlIdent, pnlQuiz, pnlResultado, pnlHistorico })
             p.Visible = p == painel;
@@ -278,6 +309,7 @@ public class Form1 : Form
         // cartao 900 x 520 no centro da janela de 1152 x 648
         var card = new PainelCartao { Bounds = new Rectangle(126, 64, 900, 520) };
         pnlIdent.Controls.Add(card);
+        pnlIdent.Controls.Add(Logo(new Rectangle(10, 6, 110, 76)));
 
         var mascote = new PictureBox
         {
@@ -371,8 +403,9 @@ public class Form1 : Form
 
     private void MontarQuiz()
     {
-        // ----- faixa do topo -----
-        Pilula(new Rectangle(40, 12, 330, 44), out lblProgresso);
+        // ----- faixa do topo (logo do Grupo Arcor + informacoes) -----
+        pnlQuiz.Controls.Add(Logo(new Rectangle(36, 6, 82, 56)));
+        Pilula(new Rectangle(126, 12, 244, 44), out lblProgresso);
         Pilula(new Rectangle(386, 12, 380, 44), out lblMarca);
         Pilula(new Rectangle(782, 12, 200, 44), out lblPontos);
         Pilula(new Rectangle(998, 12, 114, 44), out lblTempo);
@@ -734,37 +767,133 @@ public class Form1 : Form
     // =====================================================================
     // RESULTADO FINAL
     // =====================================================================
+    // Cartao pequeno com titulo, valor grande e uma linha de detalhe
+    private void Bloco(Rectangle area, string titulo, Color corValor, out Label valor, out Label detalhe)
+    {
+        var card = new PainelCartao { Bounds = area, Raio = 18, Sombra = 5 };
+
+        var lblTitulo = Rotulo(titulo, 10, Tema.MarromClaro, ContentAlignment.MiddleCenter);
+        lblTitulo.Bounds = new Rectangle(8, 10, area.Width - 22, 22);
+        valor = Rotulo("", 20, corValor, ContentAlignment.MiddleCenter);
+        valor.Bounds = new Rectangle(8, 34, area.Width - 22, 44);
+        detalhe = Rotulo("", 9, Tema.Marrom, ContentAlignment.MiddleCenter, FontStyle.Regular);
+        detalhe.Bounds = new Rectangle(8, 78, area.Width - 22, 22);
+
+        card.Controls.Add(lblTitulo);
+        card.Controls.Add(valor);
+        card.Controls.Add(detalhe);
+        pnlResultado.Controls.Add(card);
+    }
+
     private void MontarResultado()
     {
-        // ----- coluna da esquerda: trofeu, classificacao e pontos -----
+        // ----- topo: logo do Grupo Arcor e titulo -----
+        pnlResultado.Controls.Add(Logo(new Rectangle(28, 12, 140, 96)));
+
+        lblTituloResultado = Rotulo("Fim de jogo!", 26, Color.White, ContentAlignment.MiddleCenter);
+        lblTituloResultado.Bounds = new Rectangle(190, 30, 772, 60);
+        pnlResultado.Controls.Add(lblTituloResultado);
+
+        // ----- esquerda: cartao com trofeu, pontos e classificacao -----
+        var cardPontos = new PainelCartao { Bounds = new Rectangle(40, 118, 400, 424) };
+
         picTrofeu = new PictureBox
         {
-            Bounds = new Rectangle(50, 90, 260, 240),
+            Bounds = new Rectangle(20, 14, 360, 148),
             SizeMode = PictureBoxSizeMode.Zoom,
-            BackColor = Color.Transparent,
-            Image = Img("trofeu.png")
+            BackColor = Color.Transparent
         };
-        lblClassif = Rotulo("", 22, Tema.Amarelo, ContentAlignment.MiddleCenter);
-        lblClassif.Bounds = new Rectangle(20, 340, 320, 70);
-        lblPontosGrande = Rotulo("", 20, Color.White, ContentAlignment.MiddleCenter);
-        lblPontosGrande.Bounds = new Rectangle(20, 414, 320, 44);
-        lblEnvio = Rotulo("", 10, Color.White, ContentAlignment.TopCenter, FontStyle.Regular);
-        lblEnvio.Bounds = new Rectangle(20, 466, 320, 56);
-        btnReenviar = Btn("Tentar registrar de novo", 50, 530, 260, 44, Tema.Amarelo, Tema.Marrom, 10);
+        var lblSua = Rotulo("SUA PONTUAÇÃO", 12, Tema.MarromClaro, ContentAlignment.MiddleCenter);
+        lblSua.Bounds = new Rectangle(20, 166, 360, 26);
+        lblPontosGrande = Rotulo("0", 54, Tema.Azul, ContentAlignment.MiddleCenter);
+        lblPontosGrande.Bounds = new Rectangle(20, 190, 360, 92);
+        lblPontosMax = Rotulo("", 12, Tema.Marrom, ContentAlignment.MiddleCenter, FontStyle.Regular);
+        lblPontosMax.Bounds = new Rectangle(20, 280, 360, 26);
+
+        // "selo" amarelo com a classificacao
+        var selo = new PainelCartao
+        {
+            Bounds = new Rectangle(50, 314, 300, 58),
+            Preenchimento = Tema.Amarelo,
+            Raio = 20,
+            Sombra = 4
+        };
+        lblClassif = Rotulo("", 16, Tema.Marrom, ContentAlignment.MiddleCenter);
+        lblClassif.Bounds = new Rectangle(8, 4, 280, 40);
+        selo.Controls.Add(lblClassif);
+
+        lblEnvio = Rotulo("", 9, Tema.Marrom, ContentAlignment.MiddleCenter, FontStyle.Regular);
+        lblEnvio.Bounds = new Rectangle(16, 378, 368, 32);
+
+        cardPontos.Controls.Add(picTrofeu);
+        cardPontos.Controls.Add(lblSua);
+        cardPontos.Controls.Add(lblPontosGrande);
+        cardPontos.Controls.Add(lblPontosMax);
+        cardPontos.Controls.Add(selo);
+        cardPontos.Controls.Add(lblEnvio);
+        pnlResultado.Controls.Add(cardPontos);
+
+        btnReenviar = Btn("Tentar registrar de novo", 80, 560, 320, 46, Tema.Amarelo, Tema.Marrom, 11);
         btnReenviar.Visible = false;
         btnReenviar.Click += async (_, _) => await EnviarResultadoAsync();
-
-        pnlResultado.Controls.Add(picTrofeu);
-        pnlResultado.Controls.Add(lblClassif);
-        pnlResultado.Controls.Add(lblPontosGrande);
-        pnlResultado.Controls.Add(lblEnvio);
         pnlResultado.Controls.Add(btnReenviar);
 
-        // ----- direita: cartao com o resumo -----
-        var card = new PainelCartao { Bounds = new Rectangle(360, 30, 760, 500) };
+        // ----- direita, linha 1: quatro numeros da partida -----
+        Bloco(new Rectangle(460, 118, 154, 120), "ACERTOS", Tema.Verde, out lblAcertos, out lblAcertosDet);
+        Bloco(new Rectangle(626, 118, 154, 120), "APROVEITAMENTO", Tema.Azul, out lblAprov, out lblAprovDet);
+        Bloco(new Rectangle(792, 118, 154, 120), "TEMPO", Tema.Marrom, out lblTempoFinal, out lblTempoDet);
+        Bloco(new Rectangle(958, 118, 154, 120), "PISTAS", Tema.Vermelho, out lblDicasFinal, out lblDicasDet);
+
+        // ----- direita, linha 2: desempenho por nivel -----
+        var cardNiveis = new PainelCartao { Bounds = new Rectangle(460, 250, 652, 200) };
+
+        var lblNiveis = Rotulo("Desempenho por nível", 14, Tema.Marrom);
+        lblNiveis.Bounds = new Rectangle(24, 12, 300, 32);
+        lblMelhorNivel = Rotulo("", 11, Tema.MarromClaro, ContentAlignment.MiddleRight);
+        lblMelhorNivel.Bounds = new Rectangle(330, 12, 290, 32);
+        cardNiveis.Controls.Add(lblNiveis);
+        cardNiveis.Controls.Add(lblMelhorNivel);
+
+        string[] nomesNivel = { "Fácil", "Médio", "Difícil" };
+        for (int i = 0; i < 3; i++)
+        {
+            int y = 56 + i * 42;
+            var nome = Rotulo(nomesNivel[i], 12, Tema.Marrom);
+            nome.Bounds = new Rectangle(24, y, 90, 30);
+
+            _barrasNivel[i] = new BarraTempo { Bounds = new Rectangle(118, y + 7, 330, 18), Valor = 0 };
+
+            _pctNivel[i] = Rotulo("", 11, Tema.Marrom, ContentAlignment.MiddleLeft, FontStyle.Regular);
+            _pctNivel[i].Bounds = new Rectangle(460, y, 170, 30);
+
+            cardNiveis.Controls.Add(nome);
+            cardNiveis.Controls.Add(_barrasNivel[i]);
+            cardNiveis.Controls.Add(_pctNivel[i]);
+        }
+        pnlResultado.Controls.Add(cardNiveis);
+
+        // ----- direita, linha 3: marcas que apareceram na partida -----
+        var cardMarcas = new PainelCartao { Bounds = new Rectangle(460, 460, 652, 84), Raio = 18, Sombra = 5 };
+        lblMarcasPartida = Rotulo("", 11, Tema.Marrom, ContentAlignment.MiddleLeft, FontStyle.Regular);
+        lblMarcasPartida.Bounds = new Rectangle(24, 8, 604, 58);
+        cardMarcas.Controls.Add(lblMarcasPartida);
+        pnlResultado.Controls.Add(cardMarcas);
+
+        // ----- botoes -----
+        var btnNovamente = Btn("Jogar novamente", 462, 562, 210, 52, Tema.Verde, Color.White, 13);
+        var btnResumo = Btn("Resumo", 682, 562, 150, 52, Tema.Amarelo, Tema.Marrom, 13);
+        var btnHist = Btn("Histórico", 842, 562, 140, 52, Tema.Azul, Color.White, 13);
+        var btnInicio = Btn("Início", 992, 562, 120, 52, Tema.Marrom, Tema.Creme, 13);
+        pnlResultado.Controls.Add(btnNovamente);
+        pnlResultado.Controls.Add(btnResumo);
+        pnlResultado.Controls.Add(btnHist);
+        pnlResultado.Controls.Add(btnInicio);
+
+        // ----- resumo completo em texto (abre por cima, como o "Como jogar") -----
+        cardResumo = new PainelCartao { Bounds = new Rectangle(226, 40, 700, 520), Visible = false };
         txtResumo = new TextBox
         {
-            Bounds = new Rectangle(20, 20, 720, 462),
+            Bounds = new Rectangle(22, 20, 650, 410),
             Multiline = true,
             ReadOnly = true,
             ScrollBars = ScrollBars.Vertical,
@@ -773,15 +902,17 @@ public class Form1 : Form
             BackColor = Color.White,
             ForeColor = Tema.Marrom
         };
-        card.Controls.Add(txtResumo);
-        pnlResultado.Controls.Add(card);
+        var btnFechar = Btn("Fechar", 240, 442, 220, 52, Tema.Verde, Color.White, 14);
+        cardResumo.Controls.Add(txtResumo);
+        cardResumo.Controls.Add(btnFechar);
+        pnlResultado.Controls.Add(cardResumo);
 
-        var btnNovamente = Btn("Jogar novamente", 360, 548, 230, 52, Tema.Verde, Color.White, 13);
-        var btnHist = Btn("Histórico", 606, 548, 200, 52, Tema.Azul, Color.White, 13);
-        var btnInicio = Btn("Início", 822, 548, 160, 52, Tema.Marrom, Tema.Creme, 13);
-        pnlResultado.Controls.Add(btnNovamente);
-        pnlResultado.Controls.Add(btnHist);
-        pnlResultado.Controls.Add(btnInicio);
+        btnResumo.Click += (_, _) =>
+        {
+            cardResumo.Visible = true;
+            cardResumo.BringToFront();
+        };
+        btnFechar.Click += (_, _) => cardResumo.Visible = false;
 
         btnNovamente.Click += (_, _) =>
         {
@@ -821,14 +952,80 @@ public class Form1 : Form
         }
 
         _resultado = CalculadoraPartida.Calcular(dados);
-        txtResumo.Text = MontarResumo(_resultado, dados, _perguntas);
-        lblClassif.Text = _resultado.Classificacao;
-        lblPontosGrande.Text = _resultado.Pontuacao + " pontos";
+        PreencherResultado(_resultado, dados);
         lblEnvio.Text = "Registrando a partida no histórico...";
         btnReenviar.Visible = false;
         MostrarPainel(pnlResultado);
 
+        // pontos "sobem" de 0 ate o total
+        _pontosExibidos = 0;
+        _pontosAlvo = _resultado.Pontuacao;
+        lblPontosGrande.Text = "0";
+        if (_pontosAlvo > 0) _timerContagem.Start();
+
         await EnviarResultadoAsync();
+    }
+
+    private void PreencherResultado(ResultadoPartida r, DadosPartida d)
+    {
+        lblTituloResultado.Text = r.Nickname == "Anônimo" ? "Fim de jogo!" : $"Fim de jogo, {r.Nickname}!";
+
+        // trofeu para quem acertou pelo menos metade; mascote para incentivar os demais
+        picTrofeu.Image = r.PercentualGeral >= 50 ? Img("trofeu.png") : Img("mascote.png");
+
+        lblPontosMax.Text = $"de {r.PontuacaoMaxima} pontos possíveis";
+        lblClassif.Text = r.Classificacao;
+
+        lblAcertos.Text = $"{r.TotalAcertos}/{r.TotalQuestoes}";
+        lblAcertosDet.Text = $"{r.PercentualGeral:F0}% de acerto";
+
+        lblAprov.Text = $"{r.AproveitamentoPontuacao:F0}%";
+        lblAprovDet.Text = "dos pontos possíveis";
+
+        lblTempoFinal.Text = r.TempoPartida >= 60
+            ? $"{r.TempoPartida / 60}min {r.TempoPartida % 60}s"
+            : $"{r.TempoPartida}s";
+        lblTempoDet.Text = $"Ritmo: {r.Ritmo}";
+
+        lblDicasFinal.Text = r.DicasUsadas.ToString();
+        lblDicasDet.Text = r.DicasUsadas == 0 ? "nenhuma usada" : $"-{r.PenalidadeDicas} pontos";
+
+        (int acertos, int questoes, double pct)[] niveis =
+        {
+            (d.AcertosFaceis, d.QuestoesFaceis, r.PctFacil),
+            (d.AcertosMedias, d.QuestoesMedias, r.PctMedio),
+            (d.AcertosDificeis, d.QuestoesDificeis, r.PctDificil)
+        };
+        for (int i = 0; i < 3; i++)
+        {
+            var (acertos, questoes, pct) = niveis[i];
+            _barrasNivel[i].Valor = questoes > 0 ? (float)(pct / 100) : 0f;
+            _pctNivel[i].Text = questoes > 0 ? $"{acertos}/{questoes}  ({pct:F0}%)" : "não jogado";
+        }
+        lblMelhorNivel.Text = "Melhor nível: " + r.MelhorNivel;
+
+        var marcas = _perguntas
+            .Where(p => !string.IsNullOrWhiteSpace(p.Marca))
+            .Select(p => p.Marca!)
+            .Distinct()
+            .ToList();
+        lblMarcasPartida.Text = marcas.Count > 0
+            ? "Marcas da partida: " + string.Join(", ", marcas) + Environment.NewLine +
+              "Obrigado por jogar o Desafio das Marcas Arcor!"
+            : "Obrigado por jogar o Desafio das Marcas Arcor!";
+
+        txtResumo.Text = MontarResumo(r, d, _perguntas);
+        cardResumo.Visible = false;
+    }
+
+    private void TimerContagem_Tick(object? sender, EventArgs e)
+    {
+        // chega no total em cerca de 1 segundo, qualquer que seja a pontuacao
+        int passo = Math.Max(1, _pontosAlvo / 40);
+        _pontosExibidos = Math.Min(_pontosAlvo, _pontosExibidos + passo);
+        lblPontosGrande.Text = _pontosExibidos.ToString();
+
+        if (_pontosExibidos >= _pontosAlvo) _timerContagem.Stop();
     }
 
     private async Task EnviarResultadoAsync()
@@ -918,6 +1115,7 @@ public class Form1 : Form
         card.Controls.Add(titulo);
         card.Controls.Add(txtHistorico);
         pnlHistorico.Controls.Add(card);
+        pnlHistorico.Controls.Add(Logo(new Rectangle(24, 540, 128, 88)));
 
         var btnVoltar = Btn("Voltar ao início", 456, 548, 240, 52, Tema.Marrom, Tema.Creme, 13);
         btnVoltar.Click += (_, _) => MostrarPainel(pnlInicio);
