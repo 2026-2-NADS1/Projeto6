@@ -33,7 +33,7 @@ Prepare-se para uma experiência que mistura **conhecimento, diversão e competi
 ## Sobre o Jogo
 O **TugaBlock** é um quiz interativo desenvolvido como Projeto Integrador (PI) pelos alunos de Análise e Desenvolvimento de Sistemas da FECAP, com o objetivo de apresentar a marca **Arcor**, seus produtos Block, Tortuguita e outros, por meio da tecnologia e criatividade, proporcionando uma experiência divertida, dinâmica e envolvente. **Nossa proposta:** aproximar os consumidores da marca com perguntas e desafios sobre sua história e seus produtos, incentivando o conhecimento e o interesse de forma lúdica.
 
-<br><br>
+<br>
 
 ### Como jogar?
 
@@ -95,12 +95,17 @@ Não é necessário instalar dependências ou ferramentas de desenvolvimento. Ba
 ## 💻 Configuração para Desenvolvimento
 
 Para desenvolver e executar o Quiz TugaBlock no Windows, é necessário instalar:
+<br>
 🐢 .NET SDK: permite compilar, executar e testar aplicações C# e ASP.NET Core.
+<br>
 🐢 IDEs sugeridas: Visual Studio ou Visual Studio Code.
+<br>
 🐢 Git: utilizado para clonar o repositório e controlar versões.
-🐢 SQLite: banco de dados utilizado pelo projeto. Não exige instalação de um servidor MySQL.
+<br>
+🐢 SQLite: banco de dados utilizado pelo projeto.
+<br>
 🐢 Extensão C# Dev Kit: recomendada para desenvolvimento C# no Visual Studio Code.
-
+<br>
 ## 🔍Testes
 
 Os testes automatizados podem ser executados utilizando o framework xUnit e o comando:
