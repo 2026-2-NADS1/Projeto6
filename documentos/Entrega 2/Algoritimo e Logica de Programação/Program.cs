@@ -309,7 +309,7 @@ static string GerarBarra(int acertos)
     string barra = "";
     for (int i = 0; i < acertos; i++)
     {
-        barra = barra + "";
+        barra = barra + "*";
     }
     return barra;
 }
