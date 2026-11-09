@@ -1,11 +1,11 @@
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
-
+ 
 namespace QuizArcor;
-
+ 
 // =====================================================================
-// Cores, fontes e carregamento de imagens
+// Cores e fontes do jogo
 // =====================================================================
 public static class Tema
 {
@@ -17,44 +17,17 @@ public static class Tema
     public static readonly Color Creme = Color.FromArgb(255, 244, 214);
     public static readonly Color Verde = Color.FromArgb(62, 155, 90);
     public static readonly Color Vermelho = Color.FromArgb(228, 87, 46);
-
-    private static readonly Dictionary<string, Image?> _cache = new();
-
-    // Carrega Imagens\<nome> (pasta ao lado do programa). Se nao existir, devolve null
-    public static Image? Imagem(string nome)
-    {
-        if (_cache.TryGetValue(nome, out var guardada)) return guardada;
-
-        Image? carregada = null;
-        try
-        {
-            string caminho = Path.Combine(AppContext.BaseDirectory, "Imagens", nome);
-            if (File.Exists(caminho))
-            {
-                using var fs = File.OpenRead(caminho);
-                using var temp = Image.FromStream(fs);
-                carregada = new Bitmap(temp);   // copia, para nao travar o arquivo
-            }
-        }
-        catch
-        {
-            carregada = null;
-        }
-
-        _cache[nome] = carregada;
-        return carregada;
-    }
-
+ 
     public static Font Fonte(float tamanho, FontStyle estilo = FontStyle.Bold)
     {
         return new Font("Segoe UI", tamanho, estilo, GraphicsUnit.Point);
     }
-
+ 
     public static bool ContemMarca(string? marca, string nome)
     {
         return marca != null && marca.Contains(nome, StringComparison.OrdinalIgnoreCase);
     }
-
+ 
     public static GraphicsPath Arredondado(Rectangle r, int raio)
     {
         int d = Math.Max(2, raio * 2);
@@ -66,7 +39,7 @@ public static class Tema
         caminho.CloseFigure();
         return caminho;
     }
-
+ 
     public static Color Misturar(Color cor, Color alvo, float t)
     {
         return Color.FromArgb(cor.A,
@@ -74,7 +47,7 @@ public static class Tema
             (int)(cor.G + (alvo.G - cor.G) * t),
             (int)(cor.B + (alvo.B - cor.B) * t));
     }
-
+ 
     // Desenha a imagem inteira dentro do retangulo, sem distorcer
     public static void DesenharAjustado(Graphics g, Image img, Rectangle destino)
     {
@@ -86,7 +59,7 @@ public static class Tema
         g.DrawImage(img, destino.X + (destino.Width - w) / 2f, destino.Y + (destino.Height - h) / 2f, w, h);
     }
 }
-
+ 
 // =====================================================================
 // Painel com imagem de fundo (preenche a janela sem distorcer) e "flash" colorido
 // =====================================================================
@@ -97,14 +70,14 @@ public class PainelImagem : Panel
     private Color _cor2 = Tema.AzulEscuro;
     private Color _flash = Color.Transparent;
     private Bitmap? _pronto;
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Image? Imagem
     {
         get => _imagem;
         set { _imagem = value; Descartar(); }
     }
-
+ 
     // Cores do degrade usado quando nao ha imagem
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color CorFundo1
@@ -112,14 +85,14 @@ public class PainelImagem : Panel
         get => _cor1;
         set { _cor1 = value; Descartar(); }
     }
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color CorFundo2
     {
         get => _cor2;
         set { _cor2 = value; Descartar(); }
     }
-
+ 
     // Camada colorida semitransparente por cima do fundo (usada no acerto/erro)
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Flash
@@ -127,52 +100,52 @@ public class PainelImagem : Panel
         get => _flash;
         set { _flash = value; Invalidate(); }
     }
-
+ 
     public PainelImagem()
     {
         DoubleBuffered = true;
     }
-
+ 
     private void Descartar()
     {
         _pronto?.Dispose();
         _pronto = null;
         Invalidate();
     }
-
+ 
     protected override void OnSizeChanged(EventArgs e)
     {
         Descartar();
         base.OnSizeChanged(e);
     }
-
+ 
     protected override void OnPaintBackground(PaintEventArgs e)
     {
         // tudo e desenhado no OnPaint
     }
-
+ 
     protected override void OnPaint(PaintEventArgs e)
     {
         if (Width <= 0 || Height <= 0) return;
-
+ 
         _pronto ??= Montar();
         e.Graphics.DrawImageUnscaled(_pronto, 0, 0);
-
+ 
         if (_flash.A > 0)
         {
             using var pincel = new SolidBrush(_flash);
             e.Graphics.FillRectangle(pincel, e.ClipRectangle);
         }
-
+ 
         base.OnPaint(e);
     }
-
+ 
     // Prepara o fundo uma unica vez (assim a animacao nao precisa redimensionar a imagem a cada quadro)
     private Bitmap Montar()
     {
         var bmp = new Bitmap(Width, Height);
         using var g = Graphics.FromImage(bmp);
-
+ 
         if (_imagem != null)
         {
             float escala = Math.Max((float)Width / _imagem.Width, (float)Height / _imagem.Height);
@@ -187,29 +160,45 @@ public class PainelImagem : Panel
             using var degrade = new LinearGradientBrush(new Rectangle(0, 0, Width, Height), _cor1, _cor2, 90f);
             g.FillRectangle(degrade, 0, 0, Width, Height);
         }
-
+ 
         return bmp;
     }
 }
-
+ 
 // =====================================================================
 // Cartao arredondado com sombra (pode mostrar uma imagem na lateral)
 // =====================================================================
 public class PainelCartao : Panel
 {
+    private float _escala = 1f;
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Preenchimento { get; set; } = Tema.Creme;
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Borda { get; set; } = Tema.Marrom;
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int Raio { get; set; } = 22;
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int Sombra { get; set; } = 6;
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Image? ImagemLateral { get; set; }
+ 
+    // largura da imagem lateral no tamanho "de projeto" (e multiplicada pela escala)
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int LarguraImagem { get; set; }
-
+ 
+    // 1 = tamanho de projeto; maior em tela cheia
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float Escala
+    {
+        get => _escala;
+        set { _escala = Math.Max(0.3f, value); Invalidate(); }
+    }
+ 
     public PainelCartao()
     {
         SetStyle(ControlStyles.UserPaint
@@ -219,40 +208,49 @@ public class PainelCartao : Panel
                  | ControlStyles.SupportsTransparentBackColor, true);
         BackColor = Color.Transparent;
     }
-
+ 
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
-
-        var area = new Rectangle(2, 2, Width - 6, Height - Sombra - 5);
-
-        using (var sombra = Tema.Arredondado(new Rectangle(area.X, area.Y + Sombra, area.Width, area.Height), Raio))
+ 
+        float k = _escala;
+        int sombra = Math.Max(2, (int)Math.Round(Sombra * k));
+        var area = new Rectangle(2, 2, Math.Max(10, Width - 6), Math.Max(10, Height - sombra - 5));
+        int raio = Math.Max(4, (int)Math.Round(Raio * k));
+        raio = Math.Min(raio, Math.Max(2, Math.Min(area.Width, area.Height) / 2 - 1));
+ 
+        using (var caminhoSombra = Tema.Arredondado(new Rectangle(area.X, area.Y + sombra, area.Width, area.Height), raio))
         using (var pincelSombra = new SolidBrush(Color.FromArgb(80, 0, 0, 0)))
         {
-            g.FillPath(pincelSombra, sombra);
+            g.FillPath(pincelSombra, caminhoSombra);
         }
-
-        using (var caminho = Tema.Arredondado(area, Raio))
+ 
+        using (var caminho = Tema.Arredondado(area, raio))
         using (var pincel = new SolidBrush(Preenchimento))
-        using (var caneta = new Pen(Borda, 3))
+        using (var caneta = new Pen(Borda, Math.Max(2f, 3f * k)))
         {
             g.FillPath(pincel, caminho);
             g.DrawPath(caneta, caminho);
         }
-
+ 
         if (ImagemLateral != null && LarguraImagem > 0)
         {
-            var destino = new Rectangle(area.X + 16, area.Y + 12, LarguraImagem, area.Height - 24);
+            var destino = new Rectangle(
+                area.X + (int)(16 * k),
+                area.Y + (int)(12 * k),
+                (int)(LarguraImagem * k),
+                Math.Max(10, area.Height - (int)(24 * k)));
             Tema.DesenharAjustado(g, ImagemLateral, destino);
         }
-
+ 
         base.OnPaint(e);
     }
 }
-
+ 
 // =====================================================================
-// Botao colorido estilo "jogo" (cantos arredondados, efeito 3D, simbolo opcional)
+// Botao colorido estilo "jogo" (cantos arredondados, efeito 3D, simbolo opcional).
+// O texto diminui sozinho quando nao cabe no botao.
 // =====================================================================
 public enum Forma
 {
@@ -262,39 +260,50 @@ public enum Forma
     Circulo,
     Quadrado
 }
-
+ 
 public class BotaoJogo : Control
 {
     private Color _cor = Tema.Azul;
     private Color _corTexto = Color.White;
     private Forma _simbolo = Forma.Nenhuma;
+    private float _escala = 1f;
     private bool _sobre;
     private bool _pressionado;
-
+    private Font? _fonteAjustada;
+    private string _chaveFonte = "";
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Cor
     {
         get => _cor;
         set { _cor = value; Invalidate(); }
     }
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color CorTexto
     {
         get => _corTexto;
         set { _corTexto = value; Invalidate(); }
     }
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Forma Simbolo
     {
         get => _simbolo;
         set { _simbolo = value; Invalidate(); }
     }
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int Raio { get; set; } = 16;
-
+ 
+    // 1 = tamanho de projeto; maior em tela cheia
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public float Escala
+    {
+        get => _escala;
+        set { _escala = Math.Max(0.3f, value); Invalidate(); }
+    }
+ 
     public BotaoJogo()
     {
         SetStyle(ControlStyles.UserPaint
@@ -308,77 +317,125 @@ public class BotaoJogo : Control
         Font = Tema.Fonte(12);
         Size = new Size(200, 48);
     }
-
+ 
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing) _fonteAjustada?.Dispose();
+        base.Dispose(disposing);
+    }
+ 
     protected override void OnTextChanged(EventArgs e) { base.OnTextChanged(e); Invalidate(); }
     protected override void OnEnabledChanged(EventArgs e) { base.OnEnabledChanged(e); Invalidate(); }
     protected override void OnMouseEnter(EventArgs e) { _sobre = true; Invalidate(); base.OnMouseEnter(e); }
     protected override void OnMouseLeave(EventArgs e) { _sobre = false; _pressionado = false; Invalidate(); base.OnMouseLeave(e); }
-
+ 
     protected override void OnMouseDown(MouseEventArgs e)
     {
         if (e.Button == MouseButtons.Left) { _pressionado = true; Invalidate(); }
         base.OnMouseDown(e);
     }
-
+ 
     protected override void OnMouseUp(MouseEventArgs e)
     {
         _pressionado = false;
         Invalidate();
         base.OnMouseUp(e);
     }
-
+ 
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
         g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-
-        const int profundidade = 5;
-        int descida = _pressionado ? profundidade - 2 : 0;
-
+ 
+        float k = _escala;
+        int profundidade = Math.Max(3, (int)Math.Round(5 * k));
+        int descida = _pressionado ? Math.Max(1, profundidade - (int)Math.Round(2 * k)) : 0;
+ 
         Color corBase = Enabled ? _cor : Color.FromArgb(150, 150, 150);
         if (_sobre && Enabled && !_pressionado) corBase = Tema.Misturar(corBase, Color.White, 0.15f);
         Color corSombra = Tema.Misturar(corBase, Color.Black, 0.35f);
-
-        var area = new Rectangle(1, 1, Width - 3, Height - profundidade - 3);
+ 
+        var area = new Rectangle(1, 1, Math.Max(10, Width - 3), Math.Max(10, Height - profundidade - 3));
         var rSombra = new Rectangle(area.X, area.Y + profundidade, area.Width, area.Height);
         var rFace = new Rectangle(area.X, area.Y + descida, area.Width, area.Height);
-
-        using (var caminhoSombra = Tema.Arredondado(rSombra, Raio))
+ 
+        int raio = Math.Max(4, (int)Math.Round(Raio * k));
+        raio = Math.Min(raio, Math.Max(2, area.Height / 2 - 1));
+ 
+        using (var caminhoSombra = Tema.Arredondado(rSombra, raio))
         using (var pincelSombra = new SolidBrush(corSombra))
         {
             g.FillPath(pincelSombra, caminhoSombra);
         }
-
-        using (var caminhoFace = Tema.Arredondado(rFace, Raio))
+ 
+        using (var caminhoFace = Tema.Arredondado(rFace, raio))
         using (var pincelFace = new SolidBrush(corBase))
-        using (var contorno = new Pen(Tema.Misturar(corBase, Color.Black, 0.5f), 2))
+        using (var contorno = new Pen(Tema.Misturar(corBase, Color.Black, 0.5f), Math.Max(1.5f, 2f * k)))
         {
             g.FillPath(pincelFace, caminhoFace);
             g.DrawPath(contorno, caminhoFace);
         }
-
+ 
         var flags = TextFormatFlags.VerticalCenter | TextFormatFlags.WordBreak
                     | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix;
-        int margemEsq = 12;
-
+        int margem = (int)Math.Round(14 * k);
+        int margemEsq = margem;
+ 
         if (_simbolo != Forma.Nenhuma)
         {
-            int lado = Math.Min(rFace.Height - 28, 46);
-            var rSimbolo = new Rectangle(rFace.X + 20, rFace.Y + (rFace.Height - lado) / 2, lado, lado);
+            int lado = Math.Max(10, (int)Math.Min(rFace.Height - 28 * k, 46 * k));
+            var rSimbolo = new Rectangle(rFace.X + (int)(20 * k), rFace.Y + (rFace.Height - lado) / 2, lado, lado);
             DesenharForma(g, rSimbolo);
-            margemEsq = 20 + lado + 16;
+            margemEsq = (int)(20 * k) + lado + (int)(16 * k);
             flags |= TextFormatFlags.Left;
         }
         else
         {
             flags |= TextFormatFlags.HorizontalCenter;
         }
-
-        var rTexto = new Rectangle(rFace.X + margemEsq, rFace.Y, rFace.Width - margemEsq - 14, rFace.Height);
-        TextRenderer.DrawText(g, Text, Font, rTexto, Enabled ? _corTexto : Color.WhiteSmoke, flags);
+ 
+        var rTexto = new Rectangle(
+            rFace.X + margemEsq,
+            rFace.Y + 4,
+            Math.Max(10, rFace.Width - margemEsq - margem),
+            Math.Max(10, rFace.Height - 8));
+ 
+        var fonte = FonteAjustada(g, rTexto, flags);
+        TextRenderer.DrawText(g, Text, fonte, rTexto, Enabled ? _corTexto : Color.WhiteSmoke, flags);
     }
-
+ 
+    // Encontra o maior tamanho de letra (ate o da fonte do botao) em que o texto cabe na area
+    private Font FonteAjustada(Graphics g, Rectangle area, TextFormatFlags flags)
+    {
+        string chave = $"{Text}|{area.Width}x{area.Height}|{Font.FontFamily.Name}|{Font.Size}|{(int)Font.Style}";
+        if (_fonteAjustada != null && chave == _chaveFonte) return _fonteAjustada;
+ 
+        var medir = (flags & ~TextFormatFlags.EndEllipsis) | TextFormatFlags.WordBreak;
+        float tamanho = Font.Size;
+        float minimo = Math.Max(1f, tamanho * 0.5f);
+        float passo = Math.Max(0.25f, tamanho * 0.05f);
+        Font? escolhida = null;
+ 
+        for (float t = tamanho; t >= minimo; t -= passo)
+        {
+            var teste = new Font(Font.FontFamily, t, Font.Style, Font.Unit);
+            var medida = TextRenderer.MeasureText(g, Text, teste, new Size(area.Width, int.MaxValue / 4), medir);
+            if (medida.Height <= area.Height || t - passo < minimo)
+            {
+                escolhida = teste;
+                break;
+            }
+            teste.Dispose();
+        }
+ 
+        escolhida ??= new Font(Font.FontFamily, minimo, Font.Style, Font.Unit);
+        _fonteAjustada?.Dispose();
+        _fonteAjustada = escolhida;
+        _chaveFonte = chave;
+        return escolhida;
+    }
+ 
     private void DesenharForma(Graphics g, Rectangle r)
     {
         using var pincel = new SolidBrush(_corTexto);
@@ -410,21 +467,21 @@ public class BotaoJogo : Control
         }
     }
 }
-
+ 
 // =====================================================================
 // Barra de tempo (verde -> amarelo -> vermelho conforme o tempo acaba)
 // =====================================================================
 public class BarraTempo : Control
 {
     private float _valor = 1f;
-
+ 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public float Valor
     {
         get => _valor;
         set { _valor = Math.Clamp(value, 0f, 1f); Invalidate(); }
     }
-
+ 
     public BarraTempo()
     {
         SetStyle(ControlStyles.UserPaint
@@ -435,29 +492,30 @@ public class BarraTempo : Control
         BackColor = Color.Transparent;
         Size = new Size(400, 16);
     }
-
+ 
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
         g.SmoothingMode = SmoothingMode.AntiAlias;
-
-        int raio = Height / 2;
-        var trilha = new Rectangle(0, 0, Width - 1, Height - 1);
-
+ 
+        int raio = Math.Max(2, Height / 2);
+        var trilha = new Rectangle(0, 0, Math.Max(4, Width - 1), Math.Max(4, Height - 1));
+ 
         using (var caminho = Tema.Arredondado(trilha, raio))
         using (var pincel = new SolidBrush(Color.FromArgb(110, 0, 0, 0)))
         {
             g.FillPath(pincel, caminho);
         }
-
+ 
         int largura = (int)((Width - 5) * _valor);
         if (largura >= 4)
         {
             Color cor = _valor > 0.5f ? Tema.Verde : _valor > 0.25f ? Tema.Amarelo : Tema.Vermelho;
-            var preenchido = new Rectangle(2, 2, largura, Height - 5);
-            using var caminho = Tema.Arredondado(preenchido, Math.Min(raio - 2, largura / 2));
+            var preenchido = new Rectangle(2, 2, largura, Math.Max(2, Height - 5));
+            using var caminho = Tema.Arredondado(preenchido, Math.Max(1, Math.Min(raio - 2, largura / 2)));
             using var pincel = new SolidBrush(cor);
             g.FillPath(pincel, caminho);
         }
     }
 }
+ 
